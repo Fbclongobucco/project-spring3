@@ -7,7 +7,7 @@ public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
-	private String nome;
+	private String name;
 	private String email;
 	private String phone;
 	private String password;
@@ -21,7 +21,7 @@ public class User implements Serializable{
 	public User(Long id, String nome, String email, String phone, String password) {
 		super();
 		this.id = id;
-		this.nome = nome;
+		this.name = nome;
 		this.email = email;
 		this.phone = phone;
 		this.password = password;
@@ -39,12 +39,12 @@ public class User implements Serializable{
 
 
 	public String getNome() {
-		return nome;
+		return name;
 	}
 
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNome(String name) {
+		this.name = name;
 	}
 
 
