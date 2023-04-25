@@ -1,4 +1,4 @@
-package com.buccodev.projectspringcurso.rocources;
+package com.buccodev.projectspringcurso.resources;
 
 import java.util.List;
 
