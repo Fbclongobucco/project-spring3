@@ -10,20 +10,23 @@ import org.springframework.context.annotation.Profile;
 
 import com.buccodev.projectspringcurso.entities.Category;
 import com.buccodev.projectspringcurso.entities.Order;
+import com.buccodev.projectspringcurso.entities.OrderItem;
+import com.buccodev.projectspringcurso.entities.Payment;
 import com.buccodev.projectspringcurso.entities.Product;
 import com.buccodev.projectspringcurso.entities.User;
 import com.buccodev.projectspringcurso.entities.enuns.OrderStatus;
 import com.buccodev.projectspringcurso.repositories.CategoryRepository;
+import com.buccodev.projectspringcurso.repositories.OrderItemRepository;
 import com.buccodev.projectspringcurso.repositories.OrderRepository;
 import com.buccodev.projectspringcurso.repositories.ProductRepository;
-import com.buccodev.projectspringcurso.repositories.UserRapository;
+import com.buccodev.projectspringcurso.repositories.UserRepository;
 
 @Configuration
 @Profile("test")
 public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
-	private UserRapository userRepository;
+	private UserRepository userRepository;
 	@Autowired
 	private OrderRepository orderRepository;
 	
@@ -33,14 +36,14 @@ public class TestConfig implements CommandLineRunner {
 	@Autowired
 	private ProductRepository productRepository;
 	
+	@Autowired
+	private OrderItemRepository orderItemRepository;
+	
 	@Override
 	public void run(String... args) throws Exception {
-		User u1 = new User(null, "Everton Longo Bucco","nenecco@gmail.com","21966277","nennco123");
-		User u2 = new User(null, "Sophia Longo Bucco","pita@gmail.com","21964578","pita123");
 		
-		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"),OrderStatus.WAITING_PAYMENT, u1);
-		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderStatus.DELIVERED,u2);
-		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"),OrderStatus.SHIPPED, u1);
+		
+		
 		
 		Category cat1 = new Category(null, "Electronics");
 		Category cat2 = new Category(null, "Books");
@@ -52,10 +55,46 @@ public class TestConfig implements CommandLineRunner {
 		Product p4 = new Product(null, "PC Gamer", "Donec aliquet odio ac rhoncus cursus.", 1200.0, "");
 		Product p5 = new Product(null, "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99, "");
 		
-		userRepository.saveAll(Arrays.asList(u1,u2));
-		orderRepository.saveAll(Arrays.asList(o1,o2,o3));
-		categoryRepository.saveAll(Arrays.asList(cat1,cat2,cat3));
 		productRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
+		categoryRepository.saveAll(Arrays.asList(cat1,cat2,cat3));
+		 
+		p1.getCategories().add(cat2);
+		p2.getCategories().add(cat1);
+		p2.getCategories().add(cat3);
+		p3.getCategories().add(cat3);
+		p4.getCategories().add(cat3);
+		p5.getCategories().add(cat2);
+		
+		productRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
+		
+		User u1 = new User(null, "Everton Longo Bucco","nenecco@gmail.com","21966277","nennco123");
+		User u2 = new User(null, "Sophia Longo Bucco","pita@gmail.com","21964578","pita123");
+		User u3 = new User(null, "Vanilce Longo Bucco","vani@gmail.com","21964578","pita123");
+		User u4 = new User(null, "Roberto Santos Pinheiro","robith@gmail.com","2194464578","123");
+	
+		
+		
+		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"),OrderStatus.PAID, u1);
+		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderStatus.DELIVERED,u2);
+		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"),OrderStatus.SHIPPED, u1);
+		Order o4 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"),OrderStatus.PAID,u4);
+		Order o5 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"),OrderStatus.PAID,u3);
+		
+		
+		userRepository.saveAll(Arrays.asList(u1,u2,u3,u4));
+		orderRepository.saveAll(Arrays.asList(o1,o2,o3,o4,o5));
+		
+		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+		
+		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
+		 
+		Payment pay1 = new Payment(null,Instant.parse("2019-06-20T21:53:07Z"),o1 );
+		o1.setPayment(pay1);
+		
+		orderRepository.save(o1);
 	}
 	
 }
