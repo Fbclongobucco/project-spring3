@@ -38,10 +38,10 @@ public class User implements Serializable{
 	}
 
 
-	public User(Long id, String nome, String email, String phone, String password) {
+	public User(Long id, String name, String email, String phone, String password) {
 		super();
 		this.id = id;
-		this.name = nome;
+		this.name = name;
 		this.email = email;
 		this.phone = phone;
 		this.password = password;
@@ -58,7 +58,7 @@ public class User implements Serializable{
 	}
 
 
-	public String getNome() {
+	public String getName() {
 		return name;
 	}
 
