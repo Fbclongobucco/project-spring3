@@ -20,7 +20,7 @@ import com.buccodev.projectspringcurso.entities.User;
 import com.buccodev.projectspringcurso.services.UserService;
 
 @RestController
-@CrossOrigin(origins = "5500")
+@CrossOrigin(origins = "http://127.0.0.7:5500/")
 @RequestMapping(value="/users")
 public class UserResource {
 	
