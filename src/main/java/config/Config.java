@@ -11,7 +11,10 @@ public class Config implements WebMvcConfigurer {
 	
 	
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**");
+		registry.addMapping("/**").allowedMethods("*")
+		.allowedMethods("*").allowedOrigins("http://127.0.0.7:5500")
+		.allowedHeaders("*").allowCredentials(false)
+		.maxAge(-1);
 	}
 
 }
